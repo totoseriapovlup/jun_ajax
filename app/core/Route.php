@@ -27,7 +27,7 @@ class Route
             $controllerName = $urlComponents[0];
         }
         if (!empty($urlComponents[1])) {
-            $action = $controllerName[1];
+            $action = $urlComponents[1];
         }
         $controllerClass = 'app\controllers\\' . ucfirst($controllerName);
         if (!class_exists($controllerClass)) {
