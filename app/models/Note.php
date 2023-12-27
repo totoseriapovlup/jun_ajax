@@ -33,4 +33,18 @@ class Note
         }
     }
 
+    /**
+     * get all notes from db
+     * @return mixed
+     * @throws BadQueryException
+     */
+    public function all(){
+        $sql = "SELECT * FROM notes";
+        $result = $this->db->query($sql);
+        if (!$result) {
+            throw new BadQueryException($this->db->error);
+        }
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
 }

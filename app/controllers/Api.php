@@ -4,6 +4,7 @@
 namespace app\controllers;
 
 
+use app\core\Response;
 use app\models\Note;
 
 class Api implements \app\core\controllerable
@@ -26,7 +27,9 @@ class Api implements \app\core\controllerable
      */
     public function index()
     {
-        // TODO: Implement index() method.
+        $notes = $this->model->all();
+        $response = new Response();
+        $response->json($notes);
     }
 
     /**
@@ -37,8 +40,13 @@ class Api implements \app\core\controllerable
     {
         $note = [];
         $note['title'] = htmlspecialchars(filter_input(INPUT_POST, 'note'));
-        //TODO validate
-        $this->model->add($note);
-        http_response_code(201);
+        $response = new Response();
+        if(empty($note['title'])){
+            $response->status(400);
+            $response->json(['error'=>'title is empty']);
+        }else{
+            $this->model->add($note);
+            $response->status(201);
+        }
     }
 }
